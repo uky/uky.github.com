@@ -1,0 +1,16 @@
+body {
+    color: #ffffff;
+    background-color: #000000;
+}
+
+table.stuffs {
+    float: left;
+    margin: 2em;
+}
+
+table.stuffs th { min-width: 20em; }
+
+table.stuffs a { text-decoration: none; }
+
+table.stuffs th { text-align: left; }
+table.stuffs .numeric { text-align: right; }
