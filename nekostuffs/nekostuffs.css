@@ -3,14 +3,24 @@ body {
     background-color: #000000;
 }
 
+a:link, a:visited, a:hover, a:active { color: #0679e4; }
+
 table.stuffs {
     float: left;
-    margin: 2em;
+    margin: 1.5em;
+    width: 18em;
+    border-collapse: collapse;
 }
-
-table.stuffs th { min-width: 20em; }
 
 table.stuffs a { text-decoration: none; }
 
+table.stuffs tr:nth-child(odd) { background-color: #191919; }
+table.stuffs tr:nth-child(even) { background-color: #0d0d0d; }
+table.stuffs tr:first-child { background-color: #000000; }
+
 table.stuffs th { text-align: left; }
-table.stuffs .numeric { text-align: right; }
+
+table.stuffs .numeric {
+    text-align: right;
+    width: 2em;
+}
