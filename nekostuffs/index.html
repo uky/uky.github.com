@@ -18,9 +18,9 @@
                 $.ajax({
                     type: 'GET',
                     url: 'nekostuffs.xml',
-					data: { t: (new Date()).getTime() },
+                    data: { t: (new Date()).getTime() },
                     dataType: 'xml',
-					cache: false,
+                    cache: false,
                     success: parseXml
                 });
             });
