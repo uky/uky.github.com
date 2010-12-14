@@ -17,7 +17,8 @@
             $(document).ready(function(){
                 $.ajax({
                     type: 'GET',
-                    url: 'nekostuffs.xml?t=' + (new Date()).getTime(),
+                    url: 'nekostuffs.xml',
+					data: { t: (new Date()).getTime() },
                     dataType: 'xml',
 					cache: false,
                     success: parseXml
