@@ -21,13 +21,14 @@ function parseXml(xml) {
 
             if (quantity != 0 && item_name) {
                 working_table += '<tr><td>';
+
                 if(item_url)
                     working_table += '<a href="' + item_url + '">';
                 working_table += item_name;
                 if(item_url)
                     working_table += '</a></td>';
-                working_table += '<td class="numeric">' + quantity + '</td>';
-                working_table += '</tr>';
+
+                working_table += '<td class="numeric">' + quantity + '</td></tr>';
                 table_empty = false;
             }
         }
