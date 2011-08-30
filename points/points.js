@@ -227,7 +227,7 @@ updateRemaining = function() {
       elePoints -= getPointCost(input.value, base);
     }
   }
-  $('RE').value = pointsStart;
+  $('RE').value = elePoints;
 };
 selectOnFocus = function() {
   this.select();

@@ -201,7 +201,7 @@ updateRemaining = ->
         unless input.disabled
             base = baseElements[race][input.id]
             elePoints -= getPointCost(input.value, base)
-    $('RE').value = pointsStart
+    $('RE').value = elePoints
     return
 
 selectOnFocus = ->
