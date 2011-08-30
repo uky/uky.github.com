@@ -18,21 +18,27 @@
                 <fieldset id="Options">
                     <legend>Character</legend>
                     
-                    <select id="Race">
-                        <option value="Wildwood">Wildwood Elezen</option>
-                        <option value="Duskwight">Duskwight Elezen</option>
-                        <option value="Highlander">Highlander Hyur</option>
-                        <option value="Midlander">Midlander Hyur</option>
-                        <option value="Plainsfolk" selected>Plainsfolk Lalafell</option>
-                        <option value="Dunesfolk">Dunesfolk Lalafell</option>
-                        <option value="Seeker">Seeker of the Sun Miqo'te</option>
-                        <option value="Keeper">Keeper of the Moon Miqo'te</option>
-                        <option value="Wolf">Sea Wolf Roegadyn</option>
-                        <option value="Hellsguard">Hellsguard Roegadyn</option>
-                    </select>
+                    <ul>
+                        <li>
+                            <select id="Race">
+                                <option value="Wildwood">Wildwood Elezen</option>
+                                <option value="Duskwight">Duskwight Elezen</option>
+                                <option value="Highlander">Highlander Hyur</option>
+                                <option value="Midlander">Midlander Hyur</option>
+                                <option value="Plainsfolk" selected>Plainsfolk Lalafell</option>
+                                <option value="Dunesfolk">Dunesfolk Lalafell</option>
+                                <option value="Seeker">Seeker of the Sun Miqo'te</option>
+                                <option value="Keeper">Keeper of the Moon Miqo'te</option>
+                                <option value="Wolf">Sea Wolf Roegadyn</option>
+                                <option value="Hellsguard">Hellsguard Roegadyn</option>
+                            </select>
+                        </li>
                     
-                    <label for="Rank">Rank</label>
-                    <input type="text" id="Rank" size="4" maxlength="2" value="50">
+                        <li>
+                            <label for="Level">Level</label>
+                            <input type="text" id="Level" size="4" maxlength="2" value="50">
+                        </li>
+                    </ul>
                 </fieldset>
                 
                 <hr>
@@ -119,6 +125,13 @@
                             <input type="text" class="Remaining" id="RE" size="4" maxlength="3" disabled>
                         </li>
                     </ul>
+                </fieldset>
+                
+                <hr>
+                
+                <fieldset id="Bookmark">
+                    <legend>Bookmark</legend>
+                        <a id="Link">a link to this specific allotment</a>
                 </fieldset>
             </form>
         </div>

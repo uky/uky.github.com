@@ -4,30 +4,15 @@
     padding: 0;
 }
 
-h1 {
-    margin-left: 1em;
-}
+h1 { margin-left: 1em; }
 
-#Options {
-    min-width: 19em;
-    padding: 0 1em 0.5em;
-}
+#Options, #Bookmark { padding: 0 1em 0.5em; }
 
-#Options label {
-    margin-left: 1.5em;
-}
+#Options { min-width: 12em; }
 
-hr {
-    clear: both;
-}
-
-select {
-    background-color: #d3d3d3;
-}
-
-#Attributes, #Elements {
-    min-width: 10em;
-    padding: 0.5em 1em;
+#Options li {
+    float: left;
+    margin-right: 1em;
 }
 
 fieldset {
@@ -37,14 +22,11 @@ fieldset {
     border-style: outset;
 }
 
-li {
-    list-style-type: none;
-}
+li { list-style-type: none; }
 
-li label {
-    display: inline-block;
-    width: 6em;
-}
+select { background-color: #d3d3d3; }
+
+label { display: inline-block; }
 
 input {
     border-width: thin;
@@ -52,3 +34,12 @@ input {
     padding-right: 0.25em;
     text-align: right;
 }
+
+hr { clear: both; }
+
+#Attributes, #Elements {
+    min-width: 10em;
+    padding: 0.5em 1em;
+}
+
+#Attributes label, #Elements label { width: 6em; }

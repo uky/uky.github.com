@@ -142,6 +142,14 @@ baseElements =
         Earth:         13
         Ice:           14
 
+races = [
+    "Wildwood",    "Duskwight"
+    "Highlander",  "Midlander"
+    "Plainsfolk",  "Dunesfolk"
+    "Seeker",      "Keeper"
+    "Wolf",        "Hellsguard"
+]
+
 statCaps = [
       0
      30,  32,  34,  36,  38,  40,  42,  44,  46,  50
@@ -169,11 +177,14 @@ setBaseValues = ->
         $(attr).value = value
     for ele, value of baseElements[race]
         $(ele).value = value
+
+    updateRemaining()
     return
 
-validateRank = ->
+validateLevel = ->
     @value = 50 if isNaN(@value) or not (1 <= @value <= 50)
     updateRemaining()
+    showQuery()
     return
 
 validateAllotment = ->
@@ -181,13 +192,15 @@ validateAllotment = ->
     base = baseAttributes[race][@id] if @id of baseAttributes[race]
     base = baseElements[race][@id] if @id of baseElements[race]
     @value = base if isNaN(@value) or @value < base
+    @value = 184 if @value > 184
     updateRemaining()
+    showQuery()
     return
 
 updateRemaining = ->
-    rank = $('Rank').value
+    lvl = $('Level').value
     race = $('Race').value
-    pointsStart = pointsAvailable[rank]
+    pointsStart = pointsAvailable[lvl]
 
     attrPoints = pointsStart
     for input in $('Attributes').getElementsByTagName('input')
@@ -209,12 +222,11 @@ selectOnFocus = ->
     return
 
 init = ->
-    setBaseValues()
-    updateRemaining()
+    setBaseValues() unless processQuery()
 
     $('Race').onchange = setBaseValues
-    $('Rank').onchange = validateRank
-    $('Rank').onfocus = selectOnFocus
+    $('Level').onchange = validateLevel
+    $('Level').onfocus = selectOnFocus
 
     for input in $('Attributes').getElementsByTagName('input')
         unless input.disabled
@@ -224,6 +236,7 @@ init = ->
         unless input.disabled
             input.onchange = validateAllotment
             input.onfocus = selectOnFocus
+    showQuery()
     return
 
 getPointCost = (x, base) ->
@@ -240,4 +253,42 @@ getPointCost = (x, base) ->
         points = 40
     cost += points-base
     return cost
+
+showQuery = ->
+    $('Link').href = '?' + genQuery()
+    return
+
+genQuery = ->
+    query = races.indexOf $('Race').value
+    for input in document.getElementsByTagName('input')
+        unless input.disabled or input.readOnly
+            query += '-' + input.value
+    return query
+
+processQuery = ->
+    query = window.location.search
+    return false if query.length is 0
     
+    query = query.slice 1
+    values = query.split '-'
+    return false if values.length is not 14
+
+    return false unless races[ values[0] ]?
+    return false unless 1 <= values[1] <= 50
+    return false for i in [2..13] when not (12 <= values[i] <= 184)
+
+    race = races[ values[0] ]
+    $('Race').value = race
+
+    $('Level').value = values[1]
+
+    i = 2
+    for attr, base of baseAttributes[race]
+        val = values[ i++ ]
+        $(attr).value = if isNaN(val) or val < base then base else val
+    for ele, base of baseElements[race]
+        val = values[ i++ ]
+        $(ele).value = if isNaN(val) or val < base then base else val
+
+    updateRemaining()
+    return true

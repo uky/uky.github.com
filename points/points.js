@@ -1,4 +1,4 @@
-var $, baseAttributes, baseElements, getPointCost, init, pointsAvailable, selectOnFocus, setBaseValues, statCaps, updateRemaining, validateAllotment, validateRank;
+var $, baseAttributes, baseElements, genQuery, getPointCost, init, pointsAvailable, processQuery, races, selectOnFocus, setBaseValues, showQuery, statCaps, updateRemaining, validateAllotment, validateLevel;
 baseAttributes = {
   Wildwood: {
     Strength: 14,
@@ -163,6 +163,7 @@ baseElements = {
     Ice: 14
   }
 };
+races = ["Wildwood", "Duskwight", "Highlander", "Midlander", "Plainsfolk", "Dunesfolk", "Seeker", "Keeper", "Wolf", "Hellsguard"];
 statCaps = [0, 30, 32, 34, 36, 38, 40, 42, 44, 46, 50, 52, 54, 56, 60, 62, 64, 68, 70, 72, 76, 78, 82, 84, 88, 90, 94, 96, 100, 102, 106, 108, 112, 116, 118, 122, 126, 128, 132, 136, 140, 142, 146, 148, 152, 156, 160, 162, 166, 170, 174];
 pointsAvailable = [0, 0, 4, 9, 14, 20, 26, 32, 38, 44, 52, 60, 68, 76, 84, 92, 100, 108, 116, 124, 132, 142, 152, 162, 174, 186, 198, 212, 226, 240, 256, 272, 288, 306, 324, 342, 362, 382, 402, 424, 446, 468, 492, 516, 540, 566, 592, 618, 646, 674, 702];
 $ = function(x) {
@@ -181,13 +182,15 @@ setBaseValues = function() {
     value = _ref2[ele];
     $(ele).value = value;
   }
+  updateRemaining();
 };
-validateRank = function() {
+validateLevel = function() {
   var _ref;
   if (isNaN(this.value) || !((1 <= (_ref = this.value) && _ref <= 50))) {
     this.value = 50;
   }
   updateRemaining();
+  showQuery();
 };
 validateAllotment = function() {
   var base, race;
@@ -201,13 +204,17 @@ validateAllotment = function() {
   if (isNaN(this.value) || this.value < base) {
     this.value = base;
   }
+  if (this.value > 184) {
+    this.value = 184;
+  }
   updateRemaining();
+  showQuery();
 };
 updateRemaining = function() {
-  var attrPoints, base, elePoints, input, pointsStart, race, rank, _i, _j, _len, _len2, _ref, _ref2;
-  rank = $('Rank').value;
+  var attrPoints, base, elePoints, input, lvl, pointsStart, race, _i, _j, _len, _len2, _ref, _ref2;
+  lvl = $('Level').value;
   race = $('Race').value;
-  pointsStart = pointsAvailable[rank];
+  pointsStart = pointsAvailable[lvl];
   attrPoints = pointsStart;
   _ref = $('Attributes').getElementsByTagName('input');
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -234,11 +241,12 @@ selectOnFocus = function() {
 };
 init = function() {
   var input, _i, _j, _len, _len2, _ref, _ref2;
-  setBaseValues();
-  updateRemaining();
+  if (!processQuery()) {
+    setBaseValues();
+  }
   $('Race').onchange = setBaseValues;
-  $('Rank').onchange = validateRank;
-  $('Rank').onfocus = selectOnFocus;
+  $('Level').onchange = validateLevel;
+  $('Level').onfocus = selectOnFocus;
   _ref = $('Attributes').getElementsByTagName('input');
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     input = _ref[_i];
@@ -255,6 +263,7 @@ init = function() {
       input.onfocus = selectOnFocus;
     }
   }
+  showQuery();
 };
 getPointCost = function(x, base) {
   var cost, points;
@@ -274,4 +283,60 @@ getPointCost = function(x, base) {
   }
   cost += points - base;
   return cost;
+};
+showQuery = function() {
+  $('Link').href = '?' + genQuery();
+};
+genQuery = function() {
+  var input, query, _i, _len, _ref;
+  query = races.indexOf($('Race').value);
+  _ref = document.getElementsByTagName('input');
+  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    input = _ref[_i];
+    if (!(input.disabled || input.readOnly)) {
+      query += '-' + input.value;
+    }
+  }
+  return query;
+};
+processQuery = function() {
+  var attr, base, ele, i, query, race, val, values, _ref, _ref2, _ref3, _ref4;
+  query = window.location.search;
+  if (query.length === 0) {
+    return false;
+  }
+  query = query.slice(1);
+  values = query.split('-');
+  if (values.length === !14) {
+    return false;
+  }
+  if (races[values[0]] == null) {
+    return false;
+  }
+  if (!((1 <= (_ref = values[1]) && _ref <= 50))) {
+    return false;
+  }
+  for (i = 2; i <= 13; i++) {
+    if (!((12 <= (_ref2 = values[i]) && _ref2 <= 184))) {
+      return false;
+    }
+  }
+  race = races[values[0]];
+  $('Race').value = race;
+  $('Level').value = values[1];
+  i = 2;
+  _ref3 = baseAttributes[race];
+  for (attr in _ref3) {
+    base = _ref3[attr];
+    val = values[i++];
+    $(attr).value = isNaN(val) || val < base ? base : val;
+  }
+  _ref4 = baseElements[race];
+  for (ele in _ref4) {
+    base = _ref4[ele];
+    val = values[i++];
+    $(ele).value = isNaN(val) || val < base ? base : val;
+  }
+  updateRemaining();
+  return true;
 };
