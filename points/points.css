@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-left: 1em;
+}
+
+#Options {
+    min-width: 19em;
+    padding: 0 1em 0.5em;
+}
+
+#Options label {
+    margin-left: 1.5em;
+}
+
+hr {
+    clear: both;
+}
+
+select {
+    background-color: #d3d3d3;
+}
+
+#Attributes, #Elements {
+    min-width: 10em;
+    padding: 0.5em 1em;
+}
+
+fieldset {
+    float: left;
+    margin-left: 1em;
+    border-width: thin;
+    border-style: outset;
+}
+
+li {
+    list-style-type: none;
+}
+
+li label {
+    display: inline-block;
+    width: 6em;
+}
+
+input {
+    border-width: thin;
+    border-style: inset;
+    padding-right: 0.25em;
+    text-align: right;
+}
